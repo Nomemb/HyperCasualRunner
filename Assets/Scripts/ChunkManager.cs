@@ -12,6 +12,7 @@ public class ChunkManager : MonoBehaviour
     {
         Vector3 chunkPos = Vector3.zero;
 
+        // 시작시 랜덤으로 5칸 생성 
         for (int i = 0; i < 5;  i++)
         {
             Chunk chunkToCreate = chunksPrefabs[Random.Range(0, chunksPrefabs.Length)];
@@ -22,11 +23,5 @@ public class ChunkManager : MonoBehaviour
             Chunk chunkInstance = Instantiate(chunkToCreate, chunkPos, Quaternion.identity, this.transform);
             chunkPos.z += chunkInstance.GetLength() * (float)0.5 ;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
