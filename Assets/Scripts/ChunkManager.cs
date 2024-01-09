@@ -12,10 +12,11 @@ public class ChunkManager : MonoBehaviour
     {
         Vector3 chunkPos = Vector3.zero;
 
+        int length = chunksPrefabs.Length;
         // 시작시 랜덤으로 5칸 생성 
-        for (int i = 0; i < 5;  i++)
+        for (int i = 0; i < length;  i++)
         {
-            Chunk chunkToCreate = chunksPrefabs[Random.Range(0, chunksPrefabs.Length)];
+            Chunk chunkToCreate = chunksPrefabs[Random.Range(0, length)];
                       
             if (i > 0)
                 chunkPos.z += chunkToCreate.GetLength() * (float)0.5;
