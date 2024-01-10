@@ -8,7 +8,7 @@ public class VibrationManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerDetection.onDoorHit += ()=>Vibration.Vibrate(800);
+        PlayerDetection.onDoorHit += () =>Vibration.Vibrate(800);
         Enemy.onRunnerDied += () => Vibration.Vibrate(800);
         GameManager.onGameStateChanged += GameStateChangedCallback;
     }
