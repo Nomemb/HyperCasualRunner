@@ -1,38 +1,75 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
+    
     [Header(" Elements ")]
     [SerializeField] private CrowdSystem crowdSystem;
+
+    [SerializeField] private PlayerAnimator playerAnimator;
 
     [Header(" Settings ")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float roadWidth;
+    private bool canMove;
 
 
     [Header(" Control ")]
     [SerializeField] private float slideSpeed;
     private Vector3 clickedScreenPosition;
     private Vector3 clickedPlayerPosition;
-    // Start is called before the first frame update
+
+    private void Awake()
+    {
+        if (instance != null)
+            Destroy(gameObject);
+        else
+            instance = this;
+    }
+
     void Start()
     {
-        
+        GameManager.onGameStateChanged += GameStateChangedCallback;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.onGameStateChanged -= GameStateChangedCallback;
     }
 
     // Update is called once per frame
     void Update()
     {
-        MoveForward();
-
-        ManageControl();
+        if (canMove)
+        {
+            MoveForward();
+            ManageControl();
+        }
     }
 
+    private void GameStateChangedCallback(GameManager.GameState gameState)
+    {
+        if (gameState == GameManager.GameState.Game)
+            StartMoving();
+    }
+    private void StartMoving()
+    {
+        canMove = true;
+        playerAnimator.Run();
+    }
+
+    private void StopMoving()
+    {
+        canMove = false;
+        playerAnimator.Idle();
+    }
     private void MoveForward()
     {
-        transform.position += Vector3.forward * Time.deltaTime * moveSpeed;
+        transform.position += Vector3.forward * (Time.deltaTime * moveSpeed);
     }
 
     private void ManageControl()

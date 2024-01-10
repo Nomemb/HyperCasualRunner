@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class PlayerDetection : MonoBehaviour
 {
@@ -27,13 +29,18 @@ public class PlayerDetection : MonoBehaviour
         {
             if (detectedColliders[i].TryGetComponent(out Doors doors))
             {
-                Debug.Log("Hit some doors");
-
                 int bonusAmount = doors.GetBonusAmount(transform.position.x);
                 BonusType bonusType = doors.GetBonusType(transform.position.x);
 
                 doors.Disable();
                 crowdSystem.ApplyBonus(bonusType, bonusAmount);
+            }
+
+            else if (detectedColliders[i].CompareTag("Finish"))
+            {
+                PlayerPrefs.SetInt("level", PlayerPrefs.GetInt("level") + 1);
+                
+                SceneManager.LoadScene(0);
             }
         }
     }

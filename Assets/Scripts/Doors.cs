@@ -8,18 +8,19 @@ public class Doors : MonoBehaviour
 {
 
     [Header(" Elements ")]
-    [SerializeField] private MeshRenderer rightDoorRenderer;
     [SerializeField] private MeshRenderer leftDoorRenderer;
-    [SerializeField] private TextMeshPro rightDoorText;
     [SerializeField] private TextMeshPro leftDoorText;
+    [SerializeField] private MeshRenderer rightDoorRenderer;
+    [SerializeField] private TextMeshPro rightDoorText;
     [SerializeField] private Collider collider;
 
     [Header(" Settings ")]
+    [SerializeField] private BonusType leftDoorBonusType;
+    [SerializeField] private int leftDoorBonusAmount;
+
     [SerializeField] private BonusType rightDoorBonusType;
     [SerializeField] private int rightDoorBonusAmount;
 
-    [SerializeField] private BonusType leftDoorBonusType;
-    [SerializeField] private int leftDoorBonusAmount;
 
     [SerializeField] private Material bounsMaterial;
     [SerializeField] private Material penaltyMaterial;
