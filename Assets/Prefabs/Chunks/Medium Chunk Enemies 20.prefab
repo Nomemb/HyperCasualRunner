@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3460998210744066652}
   - component: {fileID: 3460998210744066653}
   m_Layer: 0
-  m_Name: Medium Chunk Enemies 10
+  m_Name: Medium Chunk Enemies 20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -201,7 +201,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7731251344094972813, guid: aae536d9db1424442849ecc9d37031da, type: 3}
       propertyPath: amount
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aae536d9db1424442849ecc9d37031da, type: 3}
