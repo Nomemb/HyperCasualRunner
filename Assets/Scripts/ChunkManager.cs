@@ -1,17 +1,32 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ChunkManager : MonoBehaviour
 {
+    public static ChunkManager instance;
+    
     [Header(" Elements ")]
     [SerializeField] private Chunk[] chunksPrefabs;
     [SerializeField] private Chunk[] levelChunks;
+    private GameObject finishLine;
+
+    private void Awake()
+    {
+        if (instance != null)
+            Destroy(gameObject);
+        else
+            instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         CreateOrderedLevel();
+
+        finishLine = GameObject.FindWithTag("Finish");
     }
 
     private void CreateOrderedLevel()
@@ -48,5 +63,10 @@ public class ChunkManager : MonoBehaviour
             Chunk chunkInstance = Instantiate(chunkToCreate, chunkPos, Quaternion.identity, this.transform);
             chunkPos.z += chunkInstance.GetLength() * (float)0.5;
         }
+    }
+
+    public float GetFinishZ()
+    {
+        return finishLine.transform.position.z;
     }
 }
