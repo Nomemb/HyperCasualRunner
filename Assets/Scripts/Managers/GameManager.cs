@@ -44,7 +44,6 @@ public class GameManager : MonoBehaviour
         this.gameState = gameState;
         onGameStateChanged?.Invoke(gameState);
         
-        Debug.Log("GameState : " + gameState);
     }
 
     public bool IsGameState()

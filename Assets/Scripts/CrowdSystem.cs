@@ -79,8 +79,9 @@ public class CrowdSystem : MonoBehaviour
         {
             Instantiate(runnerPrefab, runnersParent);
         }
-
+        
         playerAnimator.Run();
+
     }
 
     private void RemoveRunners(int amount)
