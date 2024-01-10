@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Enemy : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class Enemy : MonoBehaviour
     private State state;
     private Transform targetRunner;
 
+    [Header(" Events ")]
+    public static Action onRunnerDied;
     // Update is called once per frame
     void Update()
     {
@@ -74,6 +77,7 @@ public class Enemy : MonoBehaviour
 
         if (Vector3.Distance(transform.position, targetRunner.position) < .1f)
         {
+            onRunnerDied?.Invoke();
             Destroy(targetRunner.gameObject);
             Destroy(gameObject);
         }

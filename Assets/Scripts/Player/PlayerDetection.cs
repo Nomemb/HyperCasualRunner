@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using System;
 
 public class PlayerDetection : MonoBehaviour
 {
     [Header(" Elements ")]
     [SerializeField] private CrowdSystem crowdSystem;
 
+    [Header(" Events ")]
+    public static Action onDoorHit;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +36,9 @@ public class PlayerDetection : MonoBehaviour
                 BonusType bonusType = doors.GetBonusType(transform.position.x);
 
                 doors.Disable();
+                
+                onDoorHit?.Invoke();
+                
                 crowdSystem.ApplyBonus(bonusType, bonusAmount);
             }
 
