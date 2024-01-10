@@ -29,8 +29,6 @@ public class PlayerDetection : MonoBehaviour
         {
             if (detectedColliders[i].TryGetComponent(out Doors doors))
             {
-                Debug.Log("Hit some doors");
-
                 int bonusAmount = doors.GetBonusAmount(transform.position.x);
                 BonusType bonusType = doors.GetBonusType(transform.position.x);
 
@@ -38,9 +36,8 @@ public class PlayerDetection : MonoBehaviour
                 crowdSystem.ApplyBonus(bonusType, bonusAmount);
             }
 
-            else if (detectedColliders[i].tag == "Finish")
+            else if (detectedColliders[i].CompareTag("Finish"))
             {
-                Debug.Log("Finish Line");
                 SceneManager.LoadScene(0);
             }
         }

@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [Header(" Settings ")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float roadWidth;
+    private bool canMove;
 
 
     [Header(" Control ")]
@@ -32,7 +33,7 @@ public class PlayerController : MonoBehaviour
 
     private void MoveForward()
     {
-        transform.position += Vector3.forward * Time.deltaTime * moveSpeed;
+        transform.position += Vector3.forward * (Time.deltaTime * moveSpeed);
     }
 
     private void ManageControl()
