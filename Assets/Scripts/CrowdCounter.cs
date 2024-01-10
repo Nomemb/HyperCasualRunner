@@ -19,5 +19,8 @@ public class CrowdCounter : MonoBehaviour
     void Update()
     {
         crowdCounterText.text = runnersParents.childCount.ToString();
+
+        if (runnersParents.childCount <= 0)
+            Destroy(gameObject);
     }
 }

@@ -23,7 +23,13 @@ public class CrowdSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!GameManager.instance.IsGameState())
+            return;
+        
         PlaceRunners();
+        
+        if(runnersParent.childCount <= 0)
+            GameManager.instance.SetGameState(GameManager.GameState.GameOver);
     }
 
     private void PlaceRunners()
@@ -79,8 +85,9 @@ public class CrowdSystem : MonoBehaviour
         {
             Instantiate(runnerPrefab, runnersParent);
         }
-
+        
         playerAnimator.Run();
+
     }
 
     private void RemoveRunners(int amount)
