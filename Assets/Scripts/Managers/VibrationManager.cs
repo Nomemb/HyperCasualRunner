@@ -5,34 +5,45 @@ using UnityEngine;
 
 public class VibrationManager : MonoBehaviour
 {
+    [Header(" Settings ")]
+    private bool haptics = true;
     // Start is called before the first frame update
     void Start()
     {
-        PlayerDetection.onDoorHit += () =>Vibration.Vibrate(800);
-        Enemy.onRunnerDied += () => Vibration.Vibrate(800);
+        PlayerDetection.onDoorHit += Vibrate;
+        Enemy.onRunnerDied += Vibrate;
         GameManager.onGameStateChanged += GameStateChangedCallback;
     }
 
     private void OnDestroy()
     {
-        PlayerDetection.onDoorHit -= ()=>Vibration.Vibrate(800);
-        Enemy.onRunnerDied -= () => Vibration.Vibrate(800);
+        PlayerDetection.onDoorHit -= Vibrate;
+        Enemy.onRunnerDied -= Vibrate;
         GameManager.onGameStateChanged -= GameStateChangedCallback;
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    
     private void GameStateChangedCallback(GameManager.GameState gameState)
     {
         if (gameState == GameManager.GameState.LevelComplete)
-            Vibration.Vibrate(800);
+            Vibrate();
         else if (gameState == GameManager.GameState.GameOver)
+            Vibrate();
+
+    }
+
+    private void Vibrate()
+    {
+        if(haptics)
             Vibration.Vibrate(800);
-        
+    }
+    public void EnableVibrations()
+    {
+        haptics = false;
+    }
+
+    public void DisableVibrations()
+    {
+        haptics = true;
     }
 }
