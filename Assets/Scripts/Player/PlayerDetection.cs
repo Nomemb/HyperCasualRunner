@@ -38,6 +38,8 @@ public class PlayerDetection : MonoBehaviour
 
             else if (detectedColliders[i].CompareTag("Finish"))
             {
+                PlayerPrefs.SetInt("level", PlayerPrefs.GetInt("level") + 1);
+                
                 SceneManager.LoadScene(0);
             }
         }
