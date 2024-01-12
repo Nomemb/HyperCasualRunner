@@ -29,20 +29,27 @@ public class DataManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // 디버깅용
+        AddCoins(5);
+        
+        
         UpdateCoinsTexts();
-        GameManager.onGameStateChanged += GameStateChangedCallback;
+        
+        
+        // GameManager.onGameStateChanged += GameStateChangedCallback;
     }
 
     private void OnDestroy()
     {
-        GameManager.onGameStateChanged -= GameStateChangedCallback;
+        // GameManager.onGameStateChanged -= GameStateChangedCallback;
     }
 
-    private void GameStateChangedCallback(GameManager.GameState gameState)
-    {
-        if(gameState == GameManager.GameState.GameOver)
-            ResetCoins();
-    }
+    // 매 판 코인을 계속 들고가는 시스템이라면 주석 처리
+    // private void GameStateChangedCallback(GameManager.GameState gameState)
+    // {
+    //     if(gameState == GameManager.GameState.GameOver)
+    //         ResetCoins();
+    // }
 
     private void UpdateCoinsTexts()
     {
@@ -50,6 +57,13 @@ public class DataManager : MonoBehaviour
         {
             coinText.text = coins.ToString();
         }
+    }
+
+    public void UseCoins(int amount)
+    {
+        coins -= amount;
+        UpdateCoinsTexts();
+        PlayerPrefs.SetInt("coins", coins);
     }
 
     public void AddCoins(int amount)
@@ -61,12 +75,16 @@ public class DataManager : MonoBehaviour
         PlayerPrefs.SetInt("coins", coins);
     }
 
-    public void ResetCoins()
+    // public void ResetCoins()
+    // {
+    //     PlayerPrefs.SetInt("hasCoins", coins);
+    //     coins = 0;
+    //     UpdateCoinsTexts();
+    //     PlayerPrefs.SetInt("coins", coins);
+    // }
+
+    public int GetCoins()
     {
-        PlayerPrefs.SetInt("hasCoins", coins);
-        Debug.Log(PlayerPrefs.GetInt("hasCoins"));
-        coins = 0;
-        UpdateCoinsTexts();
-        PlayerPrefs.SetInt("coins", coins);
+        return PlayerPrefs.GetInt("hasCoins", coins);
     }
 }

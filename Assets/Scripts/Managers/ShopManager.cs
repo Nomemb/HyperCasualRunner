@@ -1,20 +1,35 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class ShopManager : MonoBehaviour
 {
     [Header(" Elements ")]
+    [SerializeField] private Button purchaseButton;
     [SerializeField] private SkinButton[] skinButtons;
     
     [Header(" Skins ")]
     [SerializeField] private Sprite[] skins;
-    
+
+    [Header(" Pricing ")]
+    [SerializeField] private int skinPrice;
+    [SerializeField] private TextMeshProUGUI priceText;
+
+    private void Awake()
+    {
+        priceText.text = skinPrice.ToString();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         ConfigureButtons();
+        
+        UpdatePurchaseButton();
     }
 
     // Update is called once per frame
@@ -93,5 +108,18 @@ public class ShopManager : MonoBehaviour
         
         UnlockSkin(randomSkinButton);
         SelectSkin(randomSkinButton);
+
+        DataManager.instance.UseCoins(skinPrice);
+        
+        UpdatePurchaseButton();
+    }
+
+    public void UpdatePurchaseButton()
+    {
+        if (DataManager.instance.GetCoins() < skinPrice)
+            purchaseButton.interactable = false;
+        else
+            purchaseButton.interactable = true;
+
     }
 }
