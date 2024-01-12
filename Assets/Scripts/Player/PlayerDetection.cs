@@ -26,7 +26,7 @@ public class PlayerDetection : MonoBehaviour
 
     private void DetectColliders()
     {
-        Collider[] detectedColliders = Physics.OverlapSphere(transform.position, crowdSystem.GetCrowdRadius());
+        Collider[] detectedColliders = Physics.OverlapSphere(transform.position, crowdSystem.GetCrowdRadius() + 2);
 
         for (int i = 0; i < detectedColliders.Length; i++)
         {

@@ -10,7 +10,11 @@ public class DataManager : MonoBehaviour
     
     [Header(" Coin Texts")]
     [SerializeField] private TextMeshProUGUI[] coinTexts;
+    [SerializeField] private int hasCoin;
     private int coins;
+
+    [Header(" Events")]
+    public static Action onAddCoins;
 
     private void Awake()
     {
@@ -26,12 +30,18 @@ public class DataManager : MonoBehaviour
     void Start()
     {
         UpdateCoinsTexts();
+        GameManager.onGameStateChanged += GameStateChangedCallback;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDestroy()
     {
-        
+        GameManager.onGameStateChanged -= GameStateChangedCallback;
+    }
+
+    private void GameStateChangedCallback(GameManager.GameState gameState)
+    {
+        if(gameState == GameManager.GameState.GameOver)
+            ResetCoins();
     }
 
     private void UpdateCoinsTexts()
@@ -47,7 +57,16 @@ public class DataManager : MonoBehaviour
         coins += amount;
         
         UpdateCoinsTexts();
-        
+        onAddCoins?.Invoke();
+        PlayerPrefs.SetInt("coins", coins);
+    }
+
+    public void ResetCoins()
+    {
+        PlayerPrefs.SetInt("hasCoins", coins);
+        Debug.Log(PlayerPrefs.GetInt("hasCoins"));
+        coins = 0;
+        UpdateCoinsTexts();
         PlayerPrefs.SetInt("coins", coins);
     }
 }
