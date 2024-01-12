@@ -8,12 +8,16 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+    [Header(" Managers ")]
+    [SerializeField] private ShopManager shopManager;
+    
     [Header(" Elements ")]
     [SerializeField] private GameObject menuPanel;
     [SerializeField] private GameObject gamePanel;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject levelCompletePanel;
     [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject shopPanel;
     
     
     [SerializeField] private Slider progressBar;
@@ -96,5 +100,16 @@ public class UIManager : MonoBehaviour
     public void HideSettingsPanel()
     {
         settingsPanel.SetActive(false);
+    }
+    
+    public void ShowShopPanel()
+    {
+        shopPanel.SetActive(true);
+        shopManager.UpdatePurchaseButton();
+    }
+
+    public void HideShopPanel()
+    {
+        shopPanel.SetActive(false);
     }
 }

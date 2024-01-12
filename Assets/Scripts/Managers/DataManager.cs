@@ -30,7 +30,8 @@ public class DataManager : MonoBehaviour
     void Start()
     {
         // 디버깅용
-        AddCoins(5);
+        //AddCoins(5);
+        //ResetCoins();
         
         
         UpdateCoinsTexts();
@@ -75,13 +76,13 @@ public class DataManager : MonoBehaviour
         PlayerPrefs.SetInt("coins", coins);
     }
 
-    // public void ResetCoins()
-    // {
-    //     PlayerPrefs.SetInt("hasCoins", coins);
-    //     coins = 0;
-    //     UpdateCoinsTexts();
-    //     PlayerPrefs.SetInt("coins", coins);
-    // }
+    public void ResetCoins()
+    {
+        PlayerPrefs.SetInt("hasCoins", coins);
+        coins = 0;
+        UpdateCoinsTexts();
+        PlayerPrefs.SetInt("coins", coins);
+    }
 
     public int GetCoins()
     {
