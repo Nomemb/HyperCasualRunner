@@ -50,6 +50,10 @@ public class SkinButton : MonoBehaviour
         selector.SetActive(false);
     }
 
+    public Button GetButton()
+    {
+        return thisButton;
+    }
     public bool IsUnlocked()
     {
         return unlocked;
