@@ -21,12 +21,12 @@ public class PlayerDetection : MonoBehaviour
     void Update()
     {
         if(GameManager.instance.IsGameState())
-            DetectDoors();
+            DetectColliders();
     }
 
-    private void DetectDoors()
+    private void DetectColliders()
     {
-        Collider[] detectedColliders = Physics.OverlapSphere(transform.position, 1);
+        Collider[] detectedColliders = Physics.OverlapSphere(transform.position, crowdSystem.GetCrowdRadius());
 
         for (int i = 0; i < detectedColliders.Length; i++)
         {
@@ -47,6 +47,13 @@ public class PlayerDetection : MonoBehaviour
                 PlayerPrefs.SetInt("level", PlayerPrefs.GetInt("level") + 1);
                 GameManager.instance.SetGameState(GameManager.GameState.LevelComplete);
                 
+            }
+            
+            else if (detectedColliders[i].CompareTag("Coin"))
+            {
+                Destroy(detectedColliders[i].gameObject);
+                
+                DataManager.instance.AddCoins(1);
             }
         }
     }
