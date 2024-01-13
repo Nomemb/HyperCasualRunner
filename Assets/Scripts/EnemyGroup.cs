@@ -33,7 +33,7 @@ public class EnemyGroup : MonoBehaviour
 
             Vector3 enemyWorldPos = enemiesParent.TransformPoint(enemyLocalPos);
             
-            Instantiate(enemyPrefab, enemyWorldPos, Quaternion.identity, enemiesParent);
+            Instantiate(enemyPrefab, enemyWorldPos, enemyPrefab.transform.rotation, enemiesParent);
         }
     }
     
