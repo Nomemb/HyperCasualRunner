@@ -67,6 +67,7 @@ public class UIManager : MonoBehaviour
     
     public void RetryButtonPressed()
     {
+        InterstitialAd.instance.ShowAd();
         SceneManager.LoadScene(0);
 
     }

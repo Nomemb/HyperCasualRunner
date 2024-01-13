@@ -3594,6 +3594,7 @@ GameObject:
   m_Component:
   - component: {fileID: 691789668}
   - component: {fileID: 691789669}
+  - component: {fileID: 691789670}
   m_Layer: 0
   m_Name: Unity Ads Manager
   m_TagString: Untagged
@@ -3608,13 +3609,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 691789667}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1797315690}
-  m_RootOrder: 8
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &691789669
 MonoBehaviour:
@@ -3631,6 +3632,21 @@ MonoBehaviour:
   _androidGameId: 5525166
   _iOSGameId: 5525167
   _testMode: 1
+  interstitialAd: {fileID: 691789670}
+--- !u!114 &691789670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 691789667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c0dbdd741513e143a4213c4c5b3aa5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _androidAdUnitId: Interstitial_Android
+  _iOsAdUnitId: Interstitial_iOS
 --- !u!1 &695755071
 GameObject:
   m_ObjectHideFlags: 0
@@ -9158,7 +9174,6 @@ Transform:
   - {fileID: 1246721056}
   - {fileID: 940408293}
   - {fileID: 766845148}
-  - {fileID: 691789668}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
