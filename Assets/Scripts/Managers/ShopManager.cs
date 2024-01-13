@@ -27,8 +27,21 @@ public class ShopManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        RewardAdButton.onRewardAdRewarded += RewardPlayer;
+        
         ConfigureButtons();
         
+        UpdatePurchaseButton();
+    }
+
+    private void OnDestroy()
+    {
+        RewardAdButton.onRewardAdRewarded -= RewardPlayer;
+    }
+
+    private void RewardPlayer()
+    {
+        DataManager.instance.AddCoins(200);
         UpdatePurchaseButton();
     }
 
