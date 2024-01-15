@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerAnimator playerAnimator;
 
     [Header(" Settings ")]
+    [SerializeField] private float curSpeed;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float roadWidth;
     private bool canMove;
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         GameManager.onGameStateChanged += GameStateChangedCallback;
+        curSpeed = moveSpeed + (float)(ChunkManager.instance.GetLevel() * 0.1);
     }
 
     private void OnDestroy()
@@ -73,7 +75,7 @@ public class PlayerController : MonoBehaviour
     }
     private void MoveForward()
     {
-        transform.position += Vector3.forward * (Time.deltaTime * moveSpeed);
+        transform.position += Vector3.forward * (Time.deltaTime * curSpeed);
     }
 
     private void ManageControl()

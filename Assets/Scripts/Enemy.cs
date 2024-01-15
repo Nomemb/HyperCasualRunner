@@ -15,13 +15,19 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float searchRadius;
 
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float curSpeed;
 
     private State state;
     private Transform targetRunner;
 
     [Header(" Events ")]
     public static Action onRunnerDied;
-    // Update is called once per frame
+
+    private void Start()
+    {
+        curSpeed = curSpeed + (float)(moveSpeed + ChunkManager.instance.GetLevel() * 0.2);
+    }
+
     void Update()
     {
         ManageState();
@@ -73,7 +79,7 @@ public class Enemy : MonoBehaviour
             state = State.Idle;
         
         transform.position = Vector3.MoveTowards(transform.position, targetRunner.position, 
-            Time.deltaTime * moveSpeed);
+            Time.deltaTime * curSpeed);
 
         if (Vector3.Distance(transform.position, targetRunner.position) < .1f)
         {
