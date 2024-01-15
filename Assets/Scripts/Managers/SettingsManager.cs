@@ -83,7 +83,7 @@ public class SettingsManager : MonoBehaviour
             EnableHaptics();
 
         hapticsState = !hapticsState;  
-        PlayerPrefs.SetInt("haptics", soundState? 1:0);
+        PlayerPrefs.SetInt("haptics", hapticsState? 1:0);
 
     }
     

@@ -41,7 +41,7 @@ public class ShopManager : MonoBehaviour
 
     private void RewardPlayer()
     {
-        DataManager.instance.AddCoins(200);
+        DataManager.instance.AddCoins(45);
         UpdatePurchaseButton();
     }
 
