@@ -7,20 +7,15 @@ public class CrowdCounter : MonoBehaviour
 {
     [Header(" Elements ")]
     [SerializeField] private TextMeshPro crowdCounterText;
-    [SerializeField] private Transform runnersParents;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private CrowdSystem crowdSystem;
 
     // Update is called once per frame
     void Update()
     {
-        crowdCounterText.text = runnersParents.childCount.ToString();
+        int childCount = crowdSystem.CurCrowdAmount;
+        crowdCounterText.text = childCount.ToString();
 
-        if (runnersParents.childCount <= 0)
+        if (childCount <= 0)
             Destroy(gameObject);
     }
 }
