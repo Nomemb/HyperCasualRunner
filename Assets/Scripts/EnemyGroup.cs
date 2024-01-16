@@ -19,12 +19,6 @@ public class EnemyGroup : MonoBehaviour
         GenerateEnemies();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void GenerateEnemies()
     {
         for (int i = 0; i < amount; i++)

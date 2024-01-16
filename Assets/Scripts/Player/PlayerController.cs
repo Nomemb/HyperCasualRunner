@@ -9,9 +9,8 @@ public class PlayerController : MonoBehaviour
     
     [Header(" Elements ")]
     [SerializeField] private CrowdSystem crowdSystem;
-
     [SerializeField] private PlayerAnimator playerAnimator;
-
+    
     [Header(" Settings ")]
     [SerializeField] private float curSpeed;
     [SerializeField] private float moveSpeed;

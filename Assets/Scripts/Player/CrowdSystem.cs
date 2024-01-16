@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.Pool;
+
 
 public class CrowdSystem : MonoBehaviour
 {
@@ -9,15 +11,35 @@ public class CrowdSystem : MonoBehaviour
     [SerializeField] private PlayerAnimator playerAnimator;
     [SerializeField] private Transform runnersParent;
     [SerializeField] private GameObject runnerPrefab;
+    [SerializeField] private int initCrowdAmount;
+    [SerializeField] private int curCrowdAmount;
+
+    public int CurCrowdAmount => curCrowdAmount;
+    private IObjectPool<Runner> pool;
 
     [Header(" Settings ")]
     [SerializeField] private float radius;
     [SerializeField] private float angle;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
+        pool = new ObjectPool<Runner>(AddRunner, OnGetRunner, OnReleaseRunner, OnDestroyRunner, maxSize:100);
         
+    }
+
+    private void Start()
+    {
+        AddRunners(initCrowdAmount);
+        PlaceRunners();
+        playerAnimator.Idle();
+        curCrowdAmount = initCrowdAmount;
+        Enemy.onRunnerDied += ReduceRunnerCount;
+    }
+
+    private void OnDestroy()
+    {
+        Enemy.onRunnerDied -= ReduceRunnerCount;
+
     }
 
     // Update is called once per frame
@@ -81,27 +103,66 @@ public class CrowdSystem : MonoBehaviour
 
     private void AddRunners(int amount)
     {
+        curCrowdAmount += amount;
         for (int i = 0; i < amount; i++)
         {
-            Instantiate(runnerPrefab, runnersParent);
+            // Instantiate(runnerPrefab, runnersParent);
+            Runner runner = pool.Get();
+            runner.transform.SetParent(runnersParent);
         }
         
         playerAnimator.Run();
 
     }
-
     private void RemoveRunners(int amount)
     {
         if (amount > runnersParent.childCount)
             amount = runnersParent.childCount;
 
-        int runnersAmount = runnersParent.childCount;
+        int runnersAmount = curCrowdAmount;
 
+        // 오브젝트 풀링 미사용 코드
+        // for (int i = runnersAmount - 1; i >= runnersAmount - amount; i--)
+        // {
+        //     Transform runnerToDestroy = runnersParent.GetChild(i);
+        //     runnerToDestroy.SetParent(null);
+        //     Destroy(runnerToDestroy.gameObject);
+        // }
+        
         for (int i = runnersAmount - 1; i >= runnersAmount - amount; i--)
         {
-            Transform runnerToDestroy = runnersParent.GetChild(i);
-            runnerToDestroy.SetParent(null);
-            Destroy(runnerToDestroy.gameObject);
+            Runner runnerToDestroy = runnersParent.GetChild(i).GetComponent<Runner>();
+            pool.Release(runnerToDestroy);
+            
         }
+
+        curCrowdAmount = runnersAmount - amount;
+    }
+
+    private Runner AddRunner()
+    {
+        Runner runner = Instantiate(runnerPrefab).GetComponent<Runner>();
+        runner.SetManagedPool(pool);
+        return runner;
+    }
+
+    private void OnGetRunner(Runner runner)
+    {
+        runner.gameObject.SetActive(true);
+    }
+    
+    private void OnReleaseRunner(Runner runner)
+    {
+        runner.gameObject.SetActive(false);
+    }
+
+    private void OnDestroyRunner(Runner runner)
+    {
+        Destroy(runner.gameObject);
+    }
+
+    private void ReduceRunnerCount()
+    {
+        curCrowdAmount -= 1;
     }
 }

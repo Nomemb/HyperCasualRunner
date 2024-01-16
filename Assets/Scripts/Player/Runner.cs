@@ -1,23 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class Runner : MonoBehaviour
 {
     [Header(" Settings ")]
     private bool isTarget;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    private IObjectPool<Runner> managedPool;
 
     public void SetTarget()
     {
@@ -28,4 +18,13 @@ public class Runner : MonoBehaviour
         return isTarget;
     }
 
+    public void SetManagedPool(IObjectPool<Runner> pool)
+    {
+        managedPool = pool;
+    }
+
+    public void DestroyRunner()
+    {
+        managedPool.Release(this);
+    }
 }
