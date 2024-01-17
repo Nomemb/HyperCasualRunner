@@ -14,6 +14,8 @@ public class EnemyCounter : MonoBehaviour
         crowdCounterText.text = enemyCount.ToString();
 
         if (enemyCount <= 0)
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+        else
+            gameObject.SetActive(true);
     }
 }

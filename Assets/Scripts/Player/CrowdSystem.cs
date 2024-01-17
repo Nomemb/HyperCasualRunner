@@ -15,16 +15,16 @@ public class CrowdSystem : MonoBehaviour
     [SerializeField] private int curCrowdAmount;
 
     public int CurCrowdAmount => curCrowdAmount;
-    private IObjectPool<Runner> pool;
 
     [Header(" Settings ")]
     [SerializeField] private float radius;
     [SerializeField] private float angle;
 
+    private IObjectPool<Runner> pool;
+    
     private void Awake()
     {
         pool = new ObjectPool<Runner>(AddRunner, OnGetRunner, OnReleaseRunner, OnDestroyRunner, maxSize:100);
-        
     }
 
     private void Start()
@@ -39,7 +39,6 @@ public class CrowdSystem : MonoBehaviour
     private void OnDestroy()
     {
         Enemy.onRunnerDied -= ReduceRunnerCount;
-
     }
 
     // Update is called once per frame
@@ -50,13 +49,13 @@ public class CrowdSystem : MonoBehaviour
         
         PlaceRunners();
         
-        if(runnersParent.childCount <= 0)
+        if(curCrowdAmount <= 0)
             GameManager.instance.SetGameState(GameManager.GameState.GameOver);
     }
 
     private void PlaceRunners()
     {
-        for (int i = 0; i < runnersParent.childCount; i++)
+        for (int i = 0; i < curCrowdAmount; i++)
         {
             Vector3 childLocalPosition = GetRunnerLocalPosition(i);
             runnersParent.GetChild(i).localPosition = childLocalPosition;
@@ -73,7 +72,7 @@ public class CrowdSystem : MonoBehaviour
 
     public float GetCrowdRadius()
     {
-        return radius * Mathf.Sqrt(runnersParent.childCount);
+        return radius * Mathf.Sqrt(curCrowdAmount);
     }
 
     public void ApplyBonus(BonusType bonusType, int bonusAmount)
@@ -85,7 +84,7 @@ public class CrowdSystem : MonoBehaviour
                 break;
 
             case BonusType.Product:
-                int runnersToAdd = runnersParent.childCount * (bonusAmount-1);
+                int runnersToAdd = curCrowdAmount * (bonusAmount-1);
                 AddRunners(runnersToAdd);
                 break;
 
@@ -94,7 +93,7 @@ public class CrowdSystem : MonoBehaviour
                 break;
 
             case BonusType.Division:
-                int runnersToRemove = runnersParent.childCount - runnersParent.childCount / bonusAmount;
+                int runnersToRemove = curCrowdAmount - curCrowdAmount / bonusAmount;
                 RemoveRunners(runnersToRemove);
                 break;
 
@@ -116,8 +115,8 @@ public class CrowdSystem : MonoBehaviour
     }
     private void RemoveRunners(int amount)
     {
-        if (amount > runnersParent.childCount)
-            amount = runnersParent.childCount;
+        if (amount > curCrowdAmount)
+            amount = curCrowdAmount;
 
         int runnersAmount = curCrowdAmount;
 
@@ -129,20 +128,21 @@ public class CrowdSystem : MonoBehaviour
         //     Destroy(runnerToDestroy.gameObject);
         // }
         
+        
+        // 오브젝트 풀링 사용 코드
         for (int i = runnersAmount - 1; i >= runnersAmount - amount; i--)
         {
-            Runner runnerToDestroy = runnersParent.GetChild(i).GetComponent<Runner>();
+            Runner runnerToDestroy = runnersParent.GetChild(i)?.GetComponent<Runner>();
             pool.Release(runnerToDestroy);
-            
         }
-
+        
         curCrowdAmount = runnersAmount - amount;
     }
 
     private Runner AddRunner()
     {
         Runner runner = Instantiate(runnerPrefab).GetComponent<Runner>();
-        runner.SetManagedPool(pool);
+        //runner.SetManagedPool(pool);
         return runner;
     }
 
